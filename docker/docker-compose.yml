@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  postgresql_quiz:
+    image: postgres:13.4-alpine
+    environment:
+      - POSTGRES_USER=quiz
+      - POSTGRES_PASSWORD=pgQz90123ui
+      - POSTGRES_DB=quiz
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data_quiz:/var/lib/postgresql/data
+
+volumes:
+  db_data_quiz:

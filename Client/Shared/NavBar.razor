@@ -1,0 +1,39 @@
+<MudAppBar Elevation="25">
+    <MudSpacer/>
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudButton StartIcon="@Icons.Material.Outlined.School" Link="/learn" Disabled="false" Color="Color.Dark" aria-label="learn" Size="Size.Large" Style="margin-right: 3rem;">Learn</MudButton>
+        <MudButton StartIcon="@Icons.Material.Outlined.Storefront" Link="/shop" Color="Color.Dark" aria-label="shop" Size="Size.Large">Shop</MudButton>
+        <MudButton StartIcon="@Icons.Material.Outlined.Storefront" Link="/fetchdata" Color="Color.Dark" aria-label="shop" Size="Size.Large">DATA</MudButton>
+    </MudHidden>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudIconButton Icon="@Icons.Material.Outlined.School" Link="/learn" Disabled="false" Color="Color.Dark" aria-label="learn" Size="Size.Large" Class="me-5"/>
+        <MudIconButton Icon="@Icons.Material.Outlined.Storefront" Color="Color.Dark" Link="/shop" aria-label="shop" Size="Size.Large"/>
+    </MudHidden>
+    <MudSpacer/>
+    <AuthorizeView>
+        <Authorized>
+            <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1">
+                <ActivatorContent>
+                    <MudAvatar Image="images/avatar_jonny.jpg"/>
+                </ActivatorContent>
+                <ChildContent>
+                    <PersonCard Class="mt-n2" ImageUrl="images/avatar_jonny.jpg" UserName="@context.User.Identity?.Name"/>
+                    <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" Href="/personal/account"/>
+                    <MudDivider Class="mb-2"/>
+                    <MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Logout" Href="/authentication/logout"/>
+                </ChildContent>
+            </MudMenu>
+        </Authorized>
+        <NotAuthorized>
+            <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1">
+                <ActivatorContent>
+                    <MudAvatar Image="images/avatar.jpg"/>
+                </ActivatorContent>
+                <ChildContent>
+                    <PersonCard Class="mt-n2" ImageUrl="images/avatar.jpg" UserName="Account"/>
+                    <MudListItem Text="Login" Icon="@Icons.Material.Outlined.Login" Href="/authentication/login"/>
+                </ChildContent>
+            </MudMenu>
+        </NotAuthorized>
+    </AuthorizeView>
+</MudAppBar>

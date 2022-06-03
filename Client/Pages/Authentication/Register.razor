@@ -1,0 +1,83 @@
+﻿@page "/authentication/register"
+@using MachineLearning.Client.Services
+@using MachineLearning.Shared.Models
+@layout LoginLayout
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h4" GutterBottom="true">Sign Up</MudText>
+@if (ShowErrors)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in Errors)
+        {
+            <p>@error</p>
+        }
+    </div>
+}
+<MudText>Already have an account? <MudLink Href="/authentication/login">Sign In</MudLink></MudText>
+<EditForm Model="RegisterModel" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator/>
+
+    <MudTextField T="string" Label="Email" Id="email" @bind-Value="RegisterModel.Email" Variant="Variant.Outlined"></MudTextField>
+    <div class="text-danger ms-3 mt-1" role="alert">
+        <ValidationMessage For="@(() => RegisterModel.Email)"/>
+    </div>
+    <MudTextField Label="Password" Id="password" type="password" @bind-Value="RegisterModel.Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility" Class="mt-4"/>
+    <div class="text-danger ms-3 mt-1" role="alert">
+        <ValidationMessage For="@(() => RegisterModel.Password)"/>
+    </div>
+    <MudTextField Label="Confirm password" Id="password" type="password" @bind-Value="RegisterModel.ConfirmPassword" Variant="Variant.Outlined" InputType="@PasswordInput" Class="mt-4"/>
+    <div class="text-danger ms-3 mt-1" role="alert">
+        <ValidationMessage For="@(() => RegisterModel.ConfirmPassword)"/>
+    </div>
+    <MudCheckBox @bind-Checked="@AgreeToTerms" Label="I agree to the terms and privacy" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Disabled="@(!AgreeToTerms)" Size="Size.Large" FullWidth="true">Register</MudButton>
+</EditForm>
+
+@code {
+    public bool AgreeToTerms { get; set; }
+
+    bool PasswordVisibility;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+        @if (PasswordVisibility)
+        {
+            PasswordVisibility = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            PasswordVisibility = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+
+    private readonly RegisterModel RegisterModel = new();
+    private bool ShowErrors;
+    private IEnumerable<string> Errors;
+
+    private async Task HandleRegistration()
+    {
+        ShowErrors = false;
+
+        var result = await AuthService.Register(RegisterModel);
+
+        if (result.Successful)
+        {
+            NavigationManager.NavigateTo("/authentication/login");
+        }
+        else
+        {
+            Errors = result.Errors;
+            ShowErrors = true;
+        }
+    }
+
+}

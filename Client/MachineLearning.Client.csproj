@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.4" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="6.0.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Shared\MachineLearning.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\wwwroot\favicon.ico" />
+	  <_ContentIncludedByDefault Remove="wwwroot\wwwroot\images\AdminDashboardTemplate.png" />
+	  <_ContentIncludedByDefault Remove="wwwroot\wwwroot\images\avatar.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\wwwroot\images\avatar_jonny.jpg" />
+	  <_ContentIncludedByDefault Remove="wwwroot\wwwroot\index.html" />
+	  <_ContentIncludedByDefault Remove="wwwroot\wwwroot\site.css" />
+	</ItemGroup>
+
+</Project>

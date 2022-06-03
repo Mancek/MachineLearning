@@ -1,0 +1,75 @@
+﻿@page "/authentication/login"
+@using MachineLearning.Client.Services
+@using MachineLearning.Shared.Models
+@using Blazored.LocalStorage
+@layout LoginLayout
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService localStorage
+
+<MudText Typo="Typo.h4" GutterBottom="true">Sign In</MudText>
+@if (ShowErrors)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
+    </div>
+}
+<MudText>Don't have an account? <MudLink Href="/authentication/register">Sign Up</MudLink></MudText>
+<EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <MudTextField T="string" Label="E-mail" Id="email" @bind-Value="loginModel.Email" Variant="Variant.Outlined" Class="my-6"></MudTextField>
+
+    <MudTextField T="string" Label="Password" Id="password" @bind-Value="loginModel.Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility"/>
+
+    <div Class="d-flex justify-space-between align-center mb-4">
+        <MudLink Href="/authentication/forgot-password">Forgot password?</MudLink>
+    </div>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit" Size="Size.Large" FullWidth="true">Sign In</MudButton>
+</EditForm>
+
+@code {
+    bool PasswordVisibility;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+        if (PasswordVisibility)
+        {
+            PasswordVisibility = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            PasswordVisibility = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+
+    private readonly LoginModel loginModel = new();
+    private bool ShowErrors;
+    private string Error = "";
+
+    private async Task HandleLogin()
+    {
+        ShowErrors = false;
+
+        var result = await AuthService.Login(loginModel);
+
+        if (result.Successful)
+        {
+            await localStorage.SetItemAsync("UserLevel", 2);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            Error = result.Error;
+            ShowErrors = true;
+        }
+    }
+
+}

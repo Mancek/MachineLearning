@@ -1,0 +1,21 @@
+<MudItem xs="12" sm="6" md="3">
+    <MudPaper Style="height:160px;">
+        <div class="d-flex flex-row pt-6 pb-4">
+            <MudAvatar Image="@ItemImage" Color="Color.Warning" Class="mx-4" Style="width:104px; height:104px;"></MudAvatar>
+            <div>
+                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">@ItemName</MudText>
+                <MudText Typo="Typo.h5">@ItemPrice</MudText>
+                <div class="text-end pe-3 pt-2">
+                    <MudButton Style="min-width:80px" Variant="Variant.Filled" Color="Color.Primary">BUY</MudButton>
+                </div>
+            </div>
+        </div>
+    </MudPaper>
+</MudItem>
+
+@code
+{
+    [Parameter] public string? ItemPrice { get; set; }
+    [Parameter] public string? ItemName { get; set; }
+    [Parameter] public string? ItemImage { get; set; }
+}
