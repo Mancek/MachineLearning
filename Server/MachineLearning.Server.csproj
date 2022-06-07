@@ -30,5 +30,9 @@
 		<ProjectReference Include="..\Shared\MachineLearning.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Models" />
+	</ItemGroup>
+
 
 </Project>
