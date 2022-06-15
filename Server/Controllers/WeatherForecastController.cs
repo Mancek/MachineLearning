@@ -1,4 +1,5 @@
-﻿using MachineLearning.Shared;
+﻿using MachineLearning.Server.Models;
+using MachineLearning.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,11 @@ public class WeatherForecastController : ControllerBase
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
+    private static readonly List<User> Users = new()
+    {
+        new User { Id = 1 }
+    };
+
     private readonly ILogger<WeatherForecastController> _logger;
 
     public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -24,6 +30,7 @@ public class WeatherForecastController : ControllerBase
     [HttpGet]
     public IEnumerable<WeatherForecast> Get()
     {
+        var find = Users.Find(u => u.Id == 1);
         var rng = new Random();
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
